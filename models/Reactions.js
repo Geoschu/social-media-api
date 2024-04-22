@@ -1,26 +1,26 @@
 const { Schema, Types } = require('mongoose');
 
-const assignmentSchema = new Schema(
+const reactionSchema = new Schema(
   {
-    assignmentId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
-    assignmentName: {
+    reactionId: {
       type: String,
       required: true,
-      maxlength: 50,
-      minlength: 4,
-      default: 'Unnamed assignment',
     },
-    score: {
-      type: Number,
+    reactionEmote: {
+      type: String,
       required: true,
-      default: () => Math.floor(Math.random() * (100 - 70 + 1) + 70),
+      maxlength: 280,
+    },
+    userName: {
+      type: String,
+      required: true,
     },
     createdAt: {
       type: Date,
       default: Date.now,
+      get: function (timestamp) {
+        return timestamp.toDateString();
+      }
     },
   },
   {
@@ -31,4 +31,4 @@ const assignmentSchema = new Schema(
   }
 );
 
-module.exports = assignmentSchema;
+module.exports = reactionSchema;

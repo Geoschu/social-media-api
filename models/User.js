@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const assignmentSchema = require('./Reactions');
+const Thoughts = require('./Thoughts');
 
 // Schema to create User model
 const userSchema = new Schema(
@@ -21,16 +21,34 @@ const userSchema = new Schema(
         message: (props) => `${props.value} is not a valid email address!`,
       },
     },
-    thoughts: [thoughtsSchema],
-    friends: [userSchema],
+    thoughts: [{ type: Schema.Types.ObjectId, ref: 'thoughts' }],
+    friends: [{ type: Schema.Types.ObjectId, ref: 'user' }],
   },
   {
     toJSON: {
-      getters: true,
-    },
+      virtuals: true,
+    }, 
+    id: false,
   }
 );
 
-const Student = model('user', userSchema);
+// Create a virtual called friendCount that retrieves the length of the user's friends array field on query.
+userSchema.virtual('friendCount').get(function() {
+  return this.friends.length;
+});
 
-module.exports = Student;
+userSchema.virtual('userThoughts', {
+  ref: 'thought',
+  localField: '_id',
+  foreignField: 'userId',
+});
+
+userSchema.pre('remove', async function(next) {
+  await this.model('thought').deleteMany({ userId: this._id });
+  next();
+});
+
+// Create the User model using the userSchema
+const User = model('user', userSchema);
+
+module.exports = User;
