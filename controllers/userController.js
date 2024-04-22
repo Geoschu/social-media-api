@@ -1,6 +1,6 @@
 // ObjectId() method for converting userId string into an ObjectId for querying database
 const { ObjectId } = require('mongoose').Types;
-const { User, Course } = require('../models');
+const { User, Thought } = require('../models');
 
 // TODO: Create an aggregate function to get the number of users overall
 const headCount = async () => {
@@ -65,15 +65,15 @@ module.exports = {
         return res.status(404).json({ message: 'No such user exists' })
       }
 
-      const course = await Course.findOneAndUpdate(
+      const thought = await Thought.findOneAndUpdate(
         { users: req.params.userId },
         { $pull: { users: req.params.userId } },
         { new: true }
       );
 
-      if (!course) {
+      if (!thought) {
         return res.status(404).json({
-          message: 'User deleted, but no courses found',
+          message: 'User deleted, but no thoughts found',
         });
       }
 
