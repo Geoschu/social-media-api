@@ -40,6 +40,9 @@ connection.once("open", async () => {
     const email = getRandomEmail();
     const thoughtContent = getRandomThoughts(1)[0].thoughtDescription;
     // console.log(thoughtDescription);
+    console.log(
+      `Creating thought with content: ${thoughtContent} and username: ${userName}`
+    );
     const thought = await Thoughts.create({
       thoughtContent: thoughtContent,
       username: userName,
@@ -57,7 +60,7 @@ connection.once("open", async () => {
   }
 
   // // Add users to the collection and await the results
-  // const userData = await User.insertMany(users);
+  const userData = await User.insertMany(users);
 
   // Add thoughts to the collection and await the results
   await Thoughts.insertMany({
