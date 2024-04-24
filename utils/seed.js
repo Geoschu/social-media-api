@@ -60,7 +60,7 @@ connection.once("open", async () => {
   }
 
   // // Add users to the collection and await the results
-  const userData = await User.insertMany(users);
+  //  const userData = await User.insertMany(users);
 
   // Add thoughts to the collection and await the results
   await Thoughts.insertMany({
