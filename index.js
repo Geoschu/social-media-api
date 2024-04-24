@@ -4,6 +4,10 @@ const routes = require("./routes");
 
 const cwd = process.cwd();
 
+const activity = cwd.includes("01-Activities")
+  ? cwd.split("01-Activities")[1]
+  : cwd;
+
 const PORT = process.env.PORT || 3001;
 const app = express();
 
