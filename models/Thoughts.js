@@ -1,6 +1,6 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
-const reactionSchema = require('./Reactions');
+const reactionSchema = require("./Reactions");
 
 const thoughtSchema = new Schema(
   {
@@ -11,18 +11,18 @@ const thoughtSchema = new Schema(
       maxlength: 280,
     },
     createdAt: {
-      type: date,
+      type: Date,
       default: Date.now,
       get: function (timestamp) {
         return timestamp.toDateString();
-      }
+      },
     },
     username: {
       type: String,
       required: true,
     },
     reactions: [reactionSchema],
-    },
+  },
   {
     toJSON: {
       virtuals: true,
@@ -31,8 +31,10 @@ const thoughtSchema = new Schema(
   }
 );
 
-thoughtSchema.virtual('reactionCount').get(function() { return this.reactions.length; });
+thoughtSchema.virtual("reactionCount").get(function () {
+  return this.reactions.length;
+});
 
-const Thoughts = model('thoughts', thoughtSchema);
+const Thoughts = model("thoughts", thoughtSchema);
 
 module.exports = Thoughts;
