@@ -33,12 +33,9 @@ connection.once("open", async () => {
 
   // Loop 20 times -- add users to the users array
   for (let i = 0; i < 20; i++) {
-    // Get some random assignment objects using a helper function that we imported from ./data
-
     const userName = getRandomUserName();
     const email = getRandomEmail();
     const thoughtContent = getRandomThoughts(1)[0].thoughtDescription;
-    // console.log(thoughtDescription);
     console.log(
       `Creating thought with content: ${thoughtContent} and username: ${userName}`
     );
@@ -46,8 +43,6 @@ connection.once("open", async () => {
       thoughtContent: thoughtContent,
       username: userName,
     });
-    console.log(thoughts, email, userName);
-
     thoughts.push(thought);
 
     const user = new User({
@@ -58,23 +53,18 @@ connection.once("open", async () => {
     users.push(user);
   }
 
-  // // Add users to the collection and await the results
+  // Add users to the collection and await the results
   // Add thoughts to the collection and await the results
-  User.insertMany(users)
-    .then(() => {
-      return Thought.insertMany(thoughts);
-    })
-    .then(() => {
-      console.log("Seeding complete! 🌱");
-      process.exit(0);
-    })
-    .catch((error) => {
-      console.error("Error seeding data:", error);
-      process.exit(1);
-    });
+  try {
+    await User.insertMany(users);
+    await Thoughts.insertMany(thoughts);
+    console.log("Seeding complete! 🌱");
+    process.exit(0);
+  } catch (error) {
+    console.error("Error seeding data:", error);
+    process.exit(1);
+  }
 
   // Log out the seed data to indicate what should appear in the database
   console.table(users);
-  console.info("Seeding complete! 🌱");
-  process.exit(0);
 });
