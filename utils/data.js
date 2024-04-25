@@ -65,7 +65,7 @@ const thoughtDescriptions = [
   "When you realize you've been watching anime for hours and it's already 3 AM... 😅",
   "Feeling attacked by all these anime feels... 😭💔",
   "Throwback to my first anime convention! Best weekend ever! 🌟🎉 #throwback",
-  "Just bought the limited edition Blu-ray box set of [Anime Title]! 😍📀",
+  "Just bought the limited edition Blu-ray box set of Cowboy Bebop! 😍📀",
   "What's your favorite anime genre: Shonen, Shojo, Seinen, or Josei? 🤔🎬",
   "Anime and chill kind of night... 😌🍿",
   "Trying to explain anime plot twists like... 🤯🌀",
@@ -76,7 +76,7 @@ const thoughtDescriptions = [
   "When the opening theme of your favorite anime starts playing... 🎵🌸",
   "Cosplaying [Character Name] this weekend! Can't wait to show you all! 👀👗",
   "That feeling when you finish an anime and don't know what to do with your life... 😭🔚",
-  "Who's your anime waifu/husbando? Mine is definitely [Character Name]! 💖🌟",
+  "Who's your anime waifu/husbando? Mine is definitely Revvy! 💖🌟",
   "Watching anime is not a hobby, it's a lifestyle! 💪🌟",
   "When your non-anime friends ask why you love it so much... 🤷‍♀️💖",
   "Anime marathon in progress! No interruptions, please! 📺🍕",
@@ -93,7 +93,7 @@ const thoughtDescriptions = [
   "Rewatching my favorite anime for the 10th time... Still not tired of it! 🔄🌟",
   "Just discovered the perfect anime meme... Sharing it with the world! 😂🌐",
   "When someone says anime is just for kids... 😤👊",
-  "Just ordered the manga box set of [Anime Title]! Can't wait to dive into the story! 📚🌟",
+  "Just ordered the manga box set of Dragon Ball! Can't wait to dive into the story! 📚🌟",
   "That moment when an anime character's backstory hits you right in the feels... 😭💔",
   "Anime nights are the best nights! 🌙📺",
   "When your favorite anime gets a new season announcement... Pure happiness! 😍🎉",
@@ -148,10 +148,13 @@ const getRandomThoughts = (int) => {
 };
 
 // Function to generate a random email address
-const getRandomEmail = () =>
-  `${getRandomArrItem(userNames).toLowerCase()}${Math.floor(
+const getRandomEmail = () => {
+  const emailDomains = ["gmail.com", "yahoo.com", "outlook.com", "hotmail.com"];
+  const domain = emailDomains[Math.floor(Math.random() * emailDomains.length)];
+  return `${getRandomArrItem(userNames).toLowerCase()}${Math.floor(
     Math.random() * 100
-  )}@gmail.com`;
+  )}@${domain}`;
+};
 
 // Export the functions for use in seed.js
 module.exports = { getRandomUserName, getRandomThoughts, getRandomEmail };
