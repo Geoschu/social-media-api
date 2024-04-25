@@ -46,7 +46,6 @@ module.exports = {
 
       res.json({
         user,
-        grade: await grade(req.params.userId),
       });
     } catch (err) {
       console.log(err);
@@ -103,15 +102,43 @@ module.exports = {
     }
   },
 
+  // Add a thought to a user
+  async addThought(req, res) {
+    console.log("You are adding a thought to a user!");
+    console.log(req.body);
+
+    try {
+      const user = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $addToSet: { thoughts: req.body } },
+        { runValidators: true, new: true }
+      );
+
+      if (!user) {
+        return res
+          .status(404)
+          .json({ message: "No user found with that ID :(" });
+      }
+
+      res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
   // Add a friend to a user's friend list
   async addFriend(req, res) {
     console.log("You are adding a friend");
     console.log(req.body);
 
     try {
-      const student = await User.findOneAndUpdate(
+      // get the friend by their ID
+      // save to friend variable
+      // add friend to user's friend list
+      //
+      const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $addToSet: { friends: req.body } },
+        { $addToSet: { friends: req.param } },
         { runValidators: true, new: true }
       );
 
