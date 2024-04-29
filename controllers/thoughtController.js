@@ -78,4 +78,55 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  // Add a reaction to a thought
+  async addReaction(req, res) {
+    console.log("You are adding a reaction to a thought!");
+
+    const { thoughtId } = req.params;
+    const { reactionEmote, userName } = req.body;
+    console.log(thoughtId, req.body);
+    try {
+      const reaction = {
+        reactionEmote,
+        userName,
+      };
+      const thought = await Thoughts.findByIdAndUpdate(
+        thoughtId,
+        { $push: { reactions: reaction } },
+        { new: true, runValidators: true }
+      );
+
+      if (!thought) {
+        return res.status(404).json({ message: "No thought with this id!" });
+      }
+      console.log(thought);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
+  // Delete a reaction from a thought
+  async deleteReaction(req, res) {
+    console.log("You are deleting a reaction from a thought!");
+
+    const { thoughtId } = req.params;
+    const { reactionId } = req.body;
+    console.log(thoughtId, reactionId);
+    try {
+      const thought = await Thoughts.findOneAndUpdate(
+        { _id: thoughtId },
+        { $pull: { reactions: { reactionId } } },
+        { new: true, runValidators: true }
+      );
+
+      if (!thought) {
+        return res.status(404).json({ message: "No thought with this id!" });
+      }
+      console.log(thought);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
 };

@@ -129,19 +129,23 @@ module.exports = {
   // Add a friend to a user's friend list
   async addFriend(req, res) {
     console.log("You are adding a friend");
-    console.log(req.body);
 
+    const { userId, friendId } = req.params;
+    console.log(userId, friendId);
     try {
       // get the friend by their ID
+      const friend = await User.findOne({ _id: friendId });
+      console.log(friend);
       // save to friend variable
+
       // add friend to user's friend list
-      //
+
       const user = await User.findOneAndUpdate(
-        { _id: req.params.userId },
-        { $addToSet: { friends: req.param } },
+        { _id: userId },
+        { $addToSet: { friends: friend } },
         { runValidators: true, new: true }
       );
-
+      console.log(user);
       if (!user) {
         return res
           .status(404)
@@ -153,15 +157,20 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Remove assignment from a student
+  // Remove friend from a user's friend list
   async removeFriend(req, res) {
+    console.log(req.params.userId, req.params.friendId);
     try {
+      // Convert friendId to ObjectId
+      const friendIdObjectId = new ObjectId(req.params.friendId);
+
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $pull: { friend: { friendId: req.params.friendId } } },
+        // $pull removes the friend from the friends array
+        { $pull: { friends: friendIdObjectId } },
         { runValidators: true, new: true }
       );
-
+      console.log(user);
       if (!user) {
         return res
           .status(404)

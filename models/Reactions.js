@@ -1,10 +1,9 @@
-const { Schema, Types } = require('mongoose');
+const { Schema, Types } = require("mongoose");
 
 const reactionSchema = new Schema(
   {
     reactionId: {
       type: String,
-      required: true,
     },
     reactionEmote: {
       type: String,
@@ -20,7 +19,7 @@ const reactionSchema = new Schema(
       default: Date.now,
       get: function (timestamp) {
         return timestamp.toDateString();
-      }
+      },
     },
   },
   {
