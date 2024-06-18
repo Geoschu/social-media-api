@@ -158,3 +158,6 @@ const getRandomEmail = () => {
 
 // Export the functions for use in seed.js
 module.exports = { getRandomUserName, getRandomThoughts, getRandomEmail };
+
+// Funcrtion to generate random reactions to a thought
+const getRandomReaction = () => getRandomArrItem(thoughtReactions);

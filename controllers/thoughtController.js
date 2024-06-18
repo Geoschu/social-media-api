@@ -101,6 +101,7 @@ module.exports = {
         return res.status(404).json({ message: "No thought with this id!" });
       }
       console.log(thought);
+      res.status(200).json(thought);
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
@@ -124,6 +125,7 @@ module.exports = {
         return res.status(404).json({ message: "No thought with this id!" });
       }
       console.log(thought);
+      res.status(200).json(thought);
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
